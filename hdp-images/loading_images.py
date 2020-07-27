@@ -88,11 +88,11 @@ class JpgLoader:
 		if self.fulfilled is not True:
 			try:
 				self.date = convert_date(self.argument, self.date_format, mode='regex')
-				# jezeli bedize string to lecimy dalej
 				if type(self.date) == str:
-					self.fulfilled = True
-					print('Date from regex')
 					return self
+				self.fulfilled = True
+				print('Date from regex')
+				return self
 			except AttributeError:
 				return self
 		return self
