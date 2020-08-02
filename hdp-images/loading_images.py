@@ -3,15 +3,18 @@ import os
 from datetime import datetime
 from recognition import *
 from clean import *
+import pathlib
 
 
 class JpgLoader:
-	def __init__(self, file, argument, date_format):
-		self.argument = argument
+	def __init__(self, file, file_name, date_format, mode, composition):
+		self.file_name = file_name
 		self.date_format = date_format
 		self.file = file
 		self.fulfilled = False
 		self.date = ""
+		self.mode = mode
+		self.composition = composition
 
 	def check_exif(self):
 		try:
@@ -26,7 +29,7 @@ class JpgLoader:
 	def insert_argument(self):
 		if self.fulfilled is not True:
 			try:
-				self.date = convert_date(self.argument, self.date_format, mode='regex')
+				self.date = convert_date(self.file_name, self.date_format, mode=self.mode)
 				if type(self.date) == str:
 					return self
 				self.fulfilled = True
@@ -50,13 +53,13 @@ class JpgLoader:
 		return self.date
 
 
-def load_jpg(images_paths: list, mode='all'):
-	loaded_faces = []
+def load_jpg(images_paths: list, mode='regex', date_format: str = "", composition="portrait"):
+	loaded_faces_list = []
 	for image in images_paths:
-		file_path = image
+		file_path = pathlib.Path(image)
 		with open(file_path, 'rb') as f:
-			loader = JpgLoader(f, 'regex', date_format='string')
+			loader = JpgLoader(f, file_path.name, date_format, mode, composition)
 			date_taken = loader.check_exif().insert_argument().check_date_of_creation().get_date()
 			face = Face(image, date_taken, f)
-			loaded_faces.append(face)
-	return loaded_faces
+			loaded_faces_list.append(face)
+	return loaded_faces_list
