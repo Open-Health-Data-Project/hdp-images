@@ -93,7 +93,7 @@ def convert_date(date: str, date_format: str = None, mode: str = 'flag'):
                 date_dict = re.search(date_format, date).groupdict()
                 date_dict = dict_comprehension(possible_keys, date_dict)
                 return pd.Timestamp(**date_dict)
-            except (AttributeError, KeyError):
+            except (AttributeError, KeyError, TypeError):
                 return str(date)
         else:
             return str(date)

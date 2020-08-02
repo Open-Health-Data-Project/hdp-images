@@ -133,3 +133,5 @@ dmypy.json
 .pyre/
 *.iml
 *.xml
+*.mp4
+*.jpg

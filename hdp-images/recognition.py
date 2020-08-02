@@ -2,18 +2,20 @@
 import face_recognition
 import cv2
 import exifread
-import loading_images
+from loading_images import *
 
 
 class Face:
     possible_composition = "straight", "left-side", "right-side", "portrait", None
-    face = None
 
-    def __init__(self, photo, date_taken, dir, composition=None):
+    def __init__(self, photo, date_taken, dir, composition=None, face=None, avg_height=0, avg_width=0):
         self.photo = photo
         self.date_taken = date_taken
         self.dir = dir
         self.composition = composition if composition in Face.possible_composition else None
+        self.face = face
+        self.avg_height = avg_height
+        self.avg_width = avg_width
 
 
 def recognize_face(loaded_faces_list):
@@ -25,7 +27,7 @@ def recognize_face(loaded_faces_list):
         recognized_faces = []
 
         # Load the jpg file into a numpy array
-        image = face_recognition.load_image_file(loaded_face.photo)
+        image = loaded_face.photo
 
         # Find all the faces in the image
         face_locations = face_recognition.face_locations(image)
@@ -62,13 +64,13 @@ def recognize_face(loaded_faces_list):
             counter += 1
 
         # Display the image on screen
-        cv2.imshow(window_name, image_marked)
-        cv2.waitKey()
+            #cv2.imshow(window_name, image_marked)
+            #cv2.waitKey()
 
-        return loaded_faces_list
+    return loaded_faces_list
 
 
-list_of_faces = recognize_face("people.jpg")
+#list_of_faces = recognize_face("people.jpg")
 
-for item in list_of_faces:
-    print(item.dir)
+#for item in list_of_faces:
+ #   print(item.dir)
