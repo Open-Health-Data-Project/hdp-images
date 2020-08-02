@@ -1,8 +1,8 @@
 import exifread
 import os
 from datetime import datetime
-from recognition import *
-from clean import *
+from recognition import Face
+from clean import convert_date
 import pathlib
 
 
@@ -60,6 +60,6 @@ def load_jpg(images_paths: list, mode='regex', date_format: str = "", compositio
 		with open(file_path, 'rb') as f:
 			loader = JpgLoader(f, file_path.name, date_format, mode, composition)
 			date_taken = loader.check_exif().insert_argument().check_date_of_creation().get_date()
-			face = Face(image, date_taken, f)
-			loaded_faces_list.append(face)
+			new_face = Face(image, date_taken, f)
+			loaded_faces_list.append(new_face)
 	return loaded_faces_list
