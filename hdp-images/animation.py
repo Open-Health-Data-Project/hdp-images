@@ -14,7 +14,7 @@ def create_animation(loaded_faces_list: list, frames_per_second=0.8):
 
     # Creating list for images at a given face_composition.
     image_array = []
-    for loaded_face in sorted(loaded_faces_list):
+    for loaded_face in loaded_faces_list:
         image_array.append(loaded_face.face)
 
     animation = cv2.VideoWriter(animation_title, cv2.VideoWriter_fourcc(*"mp4v"), frames_per_second, animation_size)
@@ -24,8 +24,9 @@ def create_animation(loaded_faces_list: list, frames_per_second=0.8):
         animation.write(image)
 
     animation.release()
+    cv2.imshow(animation)
 
     return animation
 
 
-mp4_animation = create_animation(loaded_faces_list)
+#mp4_animation = create_animation(loaded_faces_list)

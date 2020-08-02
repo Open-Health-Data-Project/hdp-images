@@ -27,7 +27,7 @@ def recognize_face(loaded_faces_list):
         recognized_faces = []
 
         # Load the jpg file into a numpy array
-        image = face_recognition.load_image_file(loaded_face.photo)
+        image = loaded_face.photo
 
         # Find all the faces in the image
         face_locations = face_recognition.face_locations(image)
@@ -64,13 +64,13 @@ def recognize_face(loaded_faces_list):
             counter += 1
 
         # Display the image on screen
-        cv2.imshow(window_name, image_marked)
-        cv2.waitKey()
+            #cv2.imshow(window_name, image_marked)
+            #cv2.waitKey()
 
-        return loaded_faces_list
+    return loaded_faces_list
 
 
-list_of_faces = recognize_face("people.jpg")
+#list_of_faces = recognize_face("people.jpg")
 
-for item in list_of_faces:
-    print(item.dir)
+#for item in list_of_faces:
+ #   print(item.dir)

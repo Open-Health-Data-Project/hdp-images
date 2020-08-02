@@ -15,14 +15,11 @@ def check_avg_width(loaded_faces_list: list):
 	return width_avg
 
 
-def aligner(shape_predictor: str, width_avg):
-	predictor = dlib.shape_predictor(shape_predictor)
+def face_align(loaded_faces_list: list):
+	width_avg = check_avg_width(loaded_faces_list)
+	predictor = dlib.shape_predictor("/Users/rob/Documents/GitHub/hdp-images/hdp-images/shape_predictor_68_face_landmarks.dat")
 	# trzeba sie zastanowic nad desirefacewidth rozdzielczosc zdj
-	fa = FaceAligner(predictor, desiredFaceWidth=0.9*width_avg)
-	return fa
-
-
-def face_align(loaded_faces_list: list, fa, dir_img: str):
+	fa = FaceAligner(predictor, desiredFaceWidth=int(0.9*width_avg))
 	# load the input image, resize it, and convert it to grayscale
 	width_avg = check_avg_width(loaded_faces_list)
 	for loaded_face in loaded_faces_list:
@@ -48,6 +45,6 @@ def face_align(loaded_faces_list: list, fa, dir_img: str):
 			# cv2.waitKey(0)
 	return loaded_faces_list
 
-face_align("/Users/rob/Documents/GitHub/hdp-images/hdp-images/recognized_faces/3.jpg",
-		   aligner("/Users/rob/Documents/GitHub/hdp-images/hdp-images/shape_predictor_68_face_landmarks.dat"),
-		   "aligned")
+#face_align("/Users/rob/Documents/GitHub/hdp-images/hdp-images/recognized_faces/3.jpg",
+#		   aligner("/Users/rob/Documents/GitHub/hdp-images/hdp-images/shape_predictor_68_face_landmarks.dat"),
+#		   "aligned", check_avg_width(loaded_faces_list=))
