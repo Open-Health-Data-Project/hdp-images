@@ -6,7 +6,7 @@ from modification import *
 
 
 # e.g. frames_per_seconds = 2 means 2 images per 1 second
-def create_animation(loaded_faces_list: list, frames_per_second=0.8):
+def create_animation(loaded_faces_list: list, frames_per_second=10):
     path_images = "recognized_faces_animation/*.jpg"
     # Creating the unique animation title.
     animation_title = str(uuid.uuid4()) + ".mp4"
@@ -24,9 +24,6 @@ def create_animation(loaded_faces_list: list, frames_per_second=0.8):
         animation.write(image)
 
     animation.release()
-    cv2.imshow(animation)
 
     return animation
 
-
-#mp4_animation = create_animation(loaded_faces_list)
