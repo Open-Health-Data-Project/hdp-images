@@ -61,6 +61,14 @@ def load_jpg(images_paths: list, mode='regex', date_format: str = "", compositio
 		with open(file_path, 'rb') as f:
 			loader = JpgLoader(f, file_path.name, date_format, mode, composition)
 			date_taken = loader.check_exif().insert_argument().check_date_of_creation().get_date()
-			new_face = Face(cv2.imread(image), date_taken, f)
+			loaded_face = cv2.imread(image)
+			face_shape = loaded_face.shape
+			if(face_shape[0]*face_shape[1] > 2000000):
+				factor = 2000000 / (face_shape[0]*face_shape[1])
+				resized_face = cv2.resize(loaded_face, (int(face_shape[1]*factor), int(face_shape[0]*factor)))
+				print(resized_face.shape)
+			else:
+				resized_face = loaded_face
+			new_face = Face(resized_face, date_taken, f)
 			loaded_faces_list.append(new_face)
 	return loaded_faces_list

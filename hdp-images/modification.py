@@ -20,7 +20,7 @@ def check_avg_size(loaded_faces_list: list):
 
 def face_align(loaded_faces_list: list):
 	height_avg, width_avg = check_avg_size(loaded_faces_list)
-	predictor = dlib.shape_predictor(r"hdp-images\shape_predictor_68_face_landmarks.dat")
+	predictor = dlib.shape_predictor(r"shape_predictor_68_face_landmarks.dat")
 	# trzeba sie zastanowic nad desirefacewidth rozdzielczosc zdj
 	fa = FaceAligner(predictor, desiredFaceWidth=int(0.9*width_avg), desiredFaceHeight=int(0.9*height_avg))
 	# load the input image, resize it, and convert it to grayscale
