@@ -9,9 +9,9 @@ test_list = []
 path = r""
 for file in os.listdir(path):
     test_list.append(fr"{path}\{file}")
-    if(len(test_list) > 10):
-        break
 loaded = load_jpg(test_list)
-recognized = recognize_face(loaded)
-face_aligned = face_align(recognized)
+# recognized = recognize_face(loaded)
+for image in loaded:
+    image.face = image.photo
+face_aligned = face_align(loaded)
 create_animation(face_aligned)

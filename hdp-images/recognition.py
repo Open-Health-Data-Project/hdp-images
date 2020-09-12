@@ -42,14 +42,14 @@ def recognize_face(loaded_faces_list):
             top, right, bottom, left = face_location
             # print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left,
             # bottom, right))
-
+            # TODO
             # Let's draw a box around the face
-            margin = (bottom - top) // 2
-            window_name = "Znalezione"
-            top = top - margin - (margin // 2)
-            left = left - margin
-            bottom = bottom + margin
-            right = right + margin
+            # margin = (bottom - top) // 2
+            # window_name = "Znalezione"
+            # top = top - margin - (margin // 2)
+            # left = left - margin
+            # bottom = bottom + margin
+            # right = right + margin
             start_point = (left, top)
             end_point = (right, bottom)
             color = (0, 0, 255)
