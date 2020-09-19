@@ -50,8 +50,9 @@ def recognize_face(loaded_faces_list):
             # left = left - margin
             # bottom = bottom + margin
             # right = right + margin
-            start_point = (left, top)
-            end_point = (right, bottom)
+            offset=100
+            start_point = (left-offset, top-offset)
+            end_point = (right+offset, bottom+offset)
             color = (0, 0, 255)
             thickness = 2
             image_marked = cv2.rectangle(image_marked, start_point, end_point, color, thickness)
