@@ -6,7 +6,7 @@ import os
 
 
 test_list = []
-path = r"C:\Users\adama\OneDrive\Obrazy\face"
+path = r""
 for file in os.listdir(path):
     test_list.append(fr"{path}\{file}")
 loaded = load_jpg(test_list)

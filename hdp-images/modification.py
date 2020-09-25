@@ -22,7 +22,7 @@ def face_align(loaded_faces_list: list):
     height_avg, width_avg = check_avg_size(loaded_faces_list)
     predictor = dlib.shape_predictor(r"shape_predictor_68_face_landmarks.dat")
     # trzeba sie zastanowic nad desirefacewidth rozdzielczosc zdj
-    fa = FaceAligner(predictor, desiredFaceWidth=int(0.9*width_avg), desiredFaceHeight=int(0.9*height_avg))
+    fa = FaceAligner(predictor, desiredFaceWidth=int(0.85*width_avg), desiredFaceHeight=height_avg, desiredLeftEye=(0.3, 0.5))
     # load the input image, resize it, and convert it to grayscale
     for loaded_face in loaded_faces_list:
         image = loaded_face.face
@@ -38,11 +38,12 @@ def face_align(loaded_faces_list: list):
             (x, y, w, h) = rect_to_bb(rect)
             #faceOrig = imutils.resize(image[y:y + h, x:x + w], width=256)
             face_aligned = fa.align(image, gray, rect)
-            # TODO
-            face_aligned = imutils.resize(face_aligned, height=height_avg, width=width_avg)
-            loaded_face.avg_width = width_avg
-            loaded_face.avg_height = height_avg
+            # face_aligned = imutils.resize(face_aligned, height=height_avg, width=width_avg)
+            loaded_face.avg_width = face_aligned.shape[1]
+            loaded_face.avg_height = face_aligned.shape[0]
             loaded_face.face = face_aligned
+            cv2.imshow("Aligned", face_aligned)
+            cv2.waitKey()
 
         # display the output images
         # cv2.imshow("Original", loaded_face.photo)
