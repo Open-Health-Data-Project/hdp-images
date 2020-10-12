@@ -63,7 +63,7 @@ def load_jpg(images_paths: list, mode='regex', date_format: str = "", compositio
 			date_taken = loader.check_exif().insert_argument().check_date_of_creation().get_date()
 			loaded_face = cv2.imread(image)
 			face_shape = loaded_face.shape
-			if(face_shape[0]*face_shape[1] > 2000000):
+			if face_shape[0]*face_shape[1] > 2000000:
 				factor = 2000000 / (face_shape[0]*face_shape[1])
 				resized_face = cv2.resize(loaded_face, (int(face_shape[1]*factor), int(face_shape[0]*factor)))
 				print(resized_face.shape)

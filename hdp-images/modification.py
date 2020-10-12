@@ -1,9 +1,8 @@
-from imutils.face_utils import FaceAligner
+from facealigner_modified import FaceAligner
 from imutils.face_utils import rect_to_bb
-import imutils
 import dlib
-import cv2
 from recognition import *
+from face_cut import *
 
 
 def check_avg_size(loaded_faces_list: list):
@@ -21,8 +20,7 @@ def check_avg_size(loaded_faces_list: list):
 def face_align(loaded_faces_list: list):
     height_avg, width_avg = check_avg_size(loaded_faces_list)
     predictor = dlib.shape_predictor(r"shape_predictor_68_face_landmarks.dat")
-    # trzeba sie zastanowic nad desirefacewidth rozdzielczosc zdj
-    fa = FaceAligner(predictor, desiredFaceWidth=int(0.85*width_avg), desiredFaceHeight=height_avg, desiredLeftEye=(0.3, 0.5))
+    fa = FaceAligner(predictor, desiredFaceWidth=int(width_avg), desiredFaceHeight=height_avg, desiredLeftEye=(0.3, 0.5))
     # load the input image, resize it, and convert it to grayscale
     for loaded_face in loaded_faces_list:
         image = loaded_face.face
@@ -36,13 +34,15 @@ def face_align(loaded_faces_list: list):
             # extract the ROI of the *original* face, then align the face
             # using facial landmarks
             (x, y, w, h) = rect_to_bb(rect)
-            #faceOrig = imutils.resize(image[y:y + h, x:x + w], width=256)
-            face_aligned = fa.align(image, gray, rect)
-            # face_aligned = imutils.resize(face_aligned, height=height_avg, width=width_avg)
+            face_aligned, params = fa.align(image, gray, rect)
             loaded_face.avg_width = face_aligned.shape[1]
             loaded_face.avg_height = face_aligned.shape[0]
             loaded_face.face = face_aligned
             cv2.imshow("Aligned", face_aligned)
+            cv2.waitKey()
+            largest_rect = largest_rotated_rect(params[0], params[1], params[2])
+            face_aligned_cropped = crop_around_center(face_aligned, *largest_rect)
+            cv2.imshow("Cropped", face_aligned_cropped)
             cv2.waitKey()
 
         # display the output images
