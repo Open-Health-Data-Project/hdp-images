@@ -1,4 +1,78 @@
 import math
+import numpy as np
+
+
+def find_optimal_crop(image, width, height):
+    left_upper = [0, 0]
+    right_upper = [0, 0]
+    right_bottom = [0, 0]
+    left_bottom = [0, 0]
+
+    for i in range(width):
+        if (image[0, i] == [0, 0, 0]).all():
+            left_upper[1] = i
+        else:
+            break
+
+    for i in range(width):
+        if (image[height-1, i] == [0, 0, 0]).all():
+            left_bottom[1] = i
+        else:
+            break
+
+    for i in range(width-1, 0, -1):
+        if (image[0, i] == [0, 0, 0]).all():
+            right_upper[1] = width - i
+        else:
+            break
+
+    for i in range(width-1, 0, -1):
+        if (image[height-1, i] == [0, 0, 0]).all():
+            right_bottom[1] = width - i
+        else:
+            break
+
+    for i in range(height):
+        if (image[i, 0] == [0, 0, 0]).all():
+            left_upper[0] = i
+        else:
+            break
+
+    for i in range(height):
+        if (image[i, width-1] == [0, 0, 0]).all():
+            right_upper[0] = i
+        else:
+            break
+
+    for i in range(height-1, 0, -1):
+        if (image[i, 0] == [0, 0, 0]).all():
+            left_bottom[0] = height - i
+        else:
+            break
+
+    for i in range(height-1, 0, -1):
+        if (image[i, width-1] == [0, 0, 0]).all():
+            right_bottom[0] = height - i
+        else:
+            break
+
+    crop_borders = (left_upper, left_bottom, right_upper, right_bottom)
+
+    for pair in crop_borders:
+        if (pair[0] / height) > (pair[1] / width):
+            pair[0] = 0
+        else:
+            pair[1] = 0
+
+    crop_values = [max(left_upper[0], right_upper[0]), height - max(left_bottom[0], right_bottom[0]),
+                   max(left_upper[1], left_bottom[1]), width - max(right_upper[1], right_bottom[1])]
+
+    return crop_values
+
+
+def crop(image):
+    y_nonzero, x_nonzero, _ = np.nonzero(image)
+    return image[np.min(y_nonzero):np.max(y_nonzero), np.min(x_nonzero):np.max(x_nonzero)]
 
 
 def largest_rotated_rect(w, h, angle):
